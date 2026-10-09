@@ -71,7 +71,9 @@ function reset() {
     </div>
     <p class="meta">
       <template v-if="running">Pause to copy the times into the log above.</template>
-      <template v-else-if="timer">Paused. The log above has been filled in; resume to keep timing.</template>
+      <template v-else-if="timer"
+        >Paused. The log above has been filled in; resume to keep timing.</template
+      >
       <template v-else>Start the timer, then pause to fill in the log above.</template>
     </p>
   </section>

@@ -105,7 +105,9 @@ function remove(id: string) {
         </label>
       </div>
       <div class="form-actions">
-        <button class="primary" type="submit">{{ editingId ? 'Save changes' : 'Add measurement' }}</button>
+        <button class="primary" type="submit">
+          {{ editingId ? 'Save changes' : 'Add measurement' }}
+        </button>
         <button v-if="editingId" class="ghost" type="button" @click="cancelEdit">Cancel</button>
         <span v-if="error" class="error">{{ error }}</span>
       </div>

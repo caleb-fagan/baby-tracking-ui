@@ -2,7 +2,16 @@
 import { computed, reactive, ref } from 'vue'
 import { state } from '../store'
 import type { MilkType } from '../types'
-import { formatDateTime, newestFirst, nowLocal, removeById, toLocalString, uid } from '../utils'
+import {
+  formatDateTime,
+  localToUtc,
+  newestFirst,
+  nowLocal,
+  removeById,
+  toLocalString,
+  uid,
+  utcToLocal,
+} from '../utils'
 import TimerCard from './TimerCard.vue'
 
 const form = reactive({
@@ -39,7 +48,7 @@ function resetForm() {
 
 function submit() {
   const values = {
-    time: form.time || nowLocal(),
+    time: localToUtc(form.time || nowLocal()),
     type: form.type,
     amountMl: !isBreast.value && form.amountMl !== '' ? Number(form.amountMl) : undefined,
     durationMin: isBreast.value && form.durationMin !== '' ? Number(form.durationMin) : undefined,
@@ -60,7 +69,7 @@ function startEdit(id: string) {
   const entry = state.milk.find((m) => m.id === id)
   if (!entry) return
   editingId.value = id
-  form.time = entry.time
+  form.time = utcToLocal(entry.time)
   form.type = entry.type
   form.amountMl = entry.amountMl ?? ''
   form.durationMin = entry.durationMin ?? ''
@@ -108,12 +117,19 @@ function remove(id: string) {
         </label>
       </div>
       <div class="form-actions">
-        <button class="primary" type="submit">{{ editingId ? 'Save changes' : 'Add feeding' }}</button>
+        <button class="primary" type="submit">
+          {{ editingId ? 'Save changes' : 'Add feeding' }}
+        </button>
         <button v-if="editingId" class="ghost" type="button" @click="cancelEdit">Cancel</button>
       </div>
     </form>
 
-    <TimerCard v-if="isBreast && !editingId"timer-key="breastTimer" title="⏱ Breastfeeding timer" @pause="onTimerPause" />
+    <TimerCard
+      v-if="isBreast && !editingId"
+      timer-key="breastTimer"
+      title="⏱ Breastfeeding timer"
+      @pause="onTimerPause"
+    />
 
     <section class="card">
       <h2>History</h2>

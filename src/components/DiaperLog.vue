@@ -2,7 +2,15 @@
 import { computed, reactive, ref } from 'vue'
 import { state } from '../store'
 import type { DiaperKind } from '../types'
-import { formatDateTime, newestFirst, nowLocal, removeById, uid } from '../utils'
+import {
+  formatDateTime,
+  localToUtc,
+  newestFirst,
+  nowLocal,
+  removeById,
+  uid,
+  utcToLocal,
+} from '../utils'
 
 const form = reactive({
   time: nowLocal(),
@@ -28,7 +36,7 @@ function resetForm() {
 
 function submit() {
   const values = {
-    time: form.time || nowLocal(),
+    time: localToUtc(form.time || nowLocal()),
     kind: form.kind,
     notes: form.notes.trim(),
   }
@@ -46,7 +54,7 @@ function startEdit(id: string) {
   const entry = state.diapers.find((d) => d.id === id)
   if (!entry) return
   editingId.value = id
-  form.time = entry.time
+  form.time = utcToLocal(entry.time)
   form.kind = entry.kind
   form.notes = entry.notes
   window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -84,7 +92,9 @@ function remove(id: string) {
         </label>
       </div>
       <div class="form-actions">
-        <button class="primary" type="submit">{{ editingId ? 'Save changes' : 'Add diaper' }}</button>
+        <button class="primary" type="submit">
+          {{ editingId ? 'Save changes' : 'Add diaper' }}
+        </button>
         <button v-if="editingId" class="ghost" type="button" @click="cancelEdit">Cancel</button>
       </div>
     </form>

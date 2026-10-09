@@ -30,7 +30,9 @@ const activeId = ref('dashboard')
 const active = computed(() => tabs.find((t) => t.id === activeId.value) ?? tabs[0])
 
 const title = computed(() => (state.baby.name ? `${state.baby.name}'s Tracker` : 'Baby Tracker'))
-const subtitle = computed(() => babyAge(state.baby.birthDate) || 'Track feeds, sleep, diapers & growth')
+const subtitle = computed(
+  () => babyAge(state.baby.birthDate) || 'Track feeds, sleep, diapers & growth',
+)
 </script>
 
 <template>

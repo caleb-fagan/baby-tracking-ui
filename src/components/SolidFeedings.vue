@@ -2,7 +2,15 @@
 import { computed, reactive, ref } from 'vue'
 import { state } from '../store'
 import type { Reaction } from '../types'
-import { formatDateTime, newestFirst, nowLocal, removeById, uid } from '../utils'
+import {
+  formatDateTime,
+  localToUtc,
+  newestFirst,
+  nowLocal,
+  removeById,
+  uid,
+  utcToLocal,
+} from '../utils'
 
 const form = reactive({
   time: nowLocal(),
@@ -39,7 +47,7 @@ function submit() {
     return
   }
   const values = {
-    time: form.time || nowLocal(),
+    time: localToUtc(form.time || nowLocal()),
     food: form.food.trim(),
     amount: form.amount.trim(),
     reaction: form.reaction,
@@ -59,7 +67,7 @@ function startEdit(id: string) {
   const entry = state.solids.find((s) => s.id === id)
   if (!entry) return
   editingId.value = id
-  form.time = entry.time
+  form.time = utcToLocal(entry.time)
   form.food = entry.food
   form.amount = entry.amount
   form.reaction = entry.reaction
@@ -99,7 +107,9 @@ function remove(id: string) {
         <label>
           Reaction
           <select v-model="form.reaction">
-            <option v-for="(label, key) in reactionLabels" :key="key" :value="key">{{ label }}</option>
+            <option v-for="(label, key) in reactionLabels" :key="key" :value="key">
+              {{ label }}
+            </option>
           </select>
         </label>
         <label class="wide">
@@ -108,7 +118,9 @@ function remove(id: string) {
         </label>
       </div>
       <div class="form-actions">
-        <button class="primary" type="submit">{{ editingId ? 'Save changes' : 'Add solid feeding' }}</button>
+        <button class="primary" type="submit">
+          {{ editingId ? 'Save changes' : 'Add solid feeding' }}
+        </button>
         <button v-if="editingId" class="ghost" type="button" @click="cancelEdit">Cancel</button>
         <span v-if="error" class="error">{{ error }}</span>
       </div>
@@ -124,7 +136,9 @@ function remove(id: string) {
             <div class="title">
               {{ s.food }}
               <span v-if="s.amount" class="badge">{{ s.amount }}</span>
-              <span class="badge" :class="{ warn: s.reaction === 'allergic' }">{{ reactionLabels[s.reaction] }}</span>
+              <span class="badge" :class="{ warn: s.reaction === 'allergic' }">{{
+                reactionLabels[s.reaction]
+              }}</span>
             </div>
             <div class="meta">{{ formatDateTime(s.time) }}</div>
             <div v-if="s.notes" class="notes">{{ s.notes }}</div>

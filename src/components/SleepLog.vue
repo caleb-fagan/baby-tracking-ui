@@ -2,7 +2,18 @@
 import { computed, reactive, ref } from 'vue'
 import { state } from '../store'
 import type { SleepKind } from '../types'
-import { formatDateTime, formatDuration, minutesBetween, newestFirst, nowLocal, removeById, uid } from '../utils'
+import {
+  formatDateTime,
+  formatDuration,
+  minutesBetween,
+  localToUtc,
+  newestFirst,
+  nowLocal,
+  nowUtc,
+  removeById,
+  uid,
+  utcToLocal,
+} from '../utils'
 
 const form = reactive({
   start: nowLocal(),
@@ -29,8 +40,8 @@ function submit() {
     return
   }
   const values = {
-    start: form.start || nowLocal(),
-    end: form.end,
+    start: localToUtc(form.start || nowLocal()),
+    end: localToUtc(form.end),
     kind: form.kind,
     notes: form.notes.trim(),
   }
@@ -48,8 +59,8 @@ function startEdit(id: string) {
   const entry = state.sleep.find((s) => s.id === id)
   if (!entry) return
   editingId.value = id
-  form.start = entry.start
-  form.end = entry.end
+  form.start = utcToLocal(entry.start)
+  form.end = utcToLocal(entry.end)
   form.kind = entry.kind
   form.notes = entry.notes
   error.value = ''
@@ -68,7 +79,7 @@ function remove(id: string) {
 
 function endNow(id: string) {
   const entry = state.sleep.find((s) => s.id === id)
-  if (entry) entry.end = nowLocal()
+  if (entry) entry.end = nowUtc()
 }
 </script>
 
@@ -101,7 +112,9 @@ function endNow(id: string) {
         </label>
       </div>
       <div class="form-actions">
-        <button class="primary" type="submit">{{ editingId ? 'Save changes' : 'Add sleep' }}</button>
+        <button class="primary" type="submit">
+          {{ editingId ? 'Save changes' : 'Add sleep' }}
+        </button>
         <button v-if="editingId" class="ghost" type="button" @click="cancelEdit">Cancel</button>
         <span v-if="error" class="error">{{ error }}</span>
       </div>
@@ -116,11 +129,14 @@ function endNow(id: string) {
           <div class="body">
             <div class="title">
               {{ s.kind === 'night' ? 'Night sleep' : 'Nap' }}
-              <span v-if="s.end" class="badge">{{ formatDuration(minutesBetween(s.start, s.end)) }}</span>
+              <span v-if="s.end" class="badge">{{
+                formatDuration(minutesBetween(s.start, s.end))
+              }}</span>
               <span v-else class="badge">Sleeping now</span>
             </div>
             <div class="meta">
-              {{ formatDateTime(s.start) }}<template v-if="s.end"> → {{ formatDateTime(s.end) }}</template>
+              {{ formatDateTime(s.start)
+              }}<template v-if="s.end"> → {{ formatDateTime(s.end) }}</template>
             </div>
             <div v-if="s.notes" class="notes">{{ s.notes }}</div>
           </div>

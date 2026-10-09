@@ -32,7 +32,12 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+  font-family:
+    'Segoe UI',
+    system-ui,
+    -apple-system,
+    Roboto,
+    sans-serif;
   line-height: 1.45;
 }
 
@@ -107,12 +112,30 @@ h3 {
 }
 
 /* section accent colours */
-.theme-dashboard { --accent: var(--lavender-d); --accent-soft: var(--lavender); }
-.theme-milk { --accent: var(--blue-d); --accent-soft: var(--blue); }
-.theme-solids { --accent: var(--mint-d); --accent-soft: var(--mint); }
-.theme-sleep { --accent: var(--lavender-d); --accent-soft: var(--lavender); }
-.theme-diapers { --accent: var(--yellow-d); --accent-soft: var(--yellow); }
-.theme-growth { --accent: var(--pink-d); --accent-soft: var(--pink); }
+.theme-dashboard {
+  --accent: var(--lavender-d);
+  --accent-soft: var(--lavender);
+}
+.theme-milk {
+  --accent: var(--blue-d);
+  --accent-soft: var(--blue);
+}
+.theme-solids {
+  --accent: var(--mint-d);
+  --accent-soft: var(--mint);
+}
+.theme-sleep {
+  --accent: var(--lavender-d);
+  --accent-soft: var(--lavender);
+}
+.theme-diapers {
+  --accent: var(--yellow-d);
+  --accent-soft: var(--yellow);
+}
+.theme-growth {
+  --accent: var(--pink-d);
+  --accent-soft: var(--pink);
+}
 
 /* ---------- cards & forms ---------- */
 .card {
@@ -369,10 +392,22 @@ button.danger:hover {
   color: var(--muted);
 }
 
-.stat.milk { --tint: var(--blue); --tone: var(--blue-d); }
-.stat.solids { --tint: var(--mint); --tone: var(--mint-d); }
-.stat.sleep { --tint: var(--lavender); --tone: var(--lavender-d); }
-.stat.diapers { --tint: var(--yellow); --tone: var(--yellow-d); }
+.stat.milk {
+  --tint: var(--blue);
+  --tone: var(--blue-d);
+}
+.stat.solids {
+  --tint: var(--mint);
+  --tone: var(--mint-d);
+}
+.stat.sleep {
+  --tint: var(--lavender);
+  --tone: var(--lavender-d);
+}
+.stat.diapers {
+  --tint: var(--yellow);
+  --tone: var(--yellow-d);
+}
 
 @media (max-width: 480px) {
   .app {

@@ -36,7 +36,11 @@ const sleepingNow = computed(() => state.sleep.some((s) => !s.end))
 
 const recent = computed(() => {
   const items = [
-    ...state.milk.map((m) => ({ time: m.time, icon: '🍼', text: m.type === 'breast' ? 'Breastfed' : `Milk (${m.type})` })),
+    ...state.milk.map((m) => ({
+      time: m.time,
+      icon: m.type === 'breast' ? '🤱' : '🍼',
+      text: m.type === 'breast' ? 'Breastfed' : `Milk (${m.type})`,
+    })),
     ...state.solids.map((s) => ({ time: s.time, icon: '🥣', text: `Ate ${s.food}` })),
     ...state.sleep.map((s) => ({
       time: s.start,
@@ -49,7 +53,8 @@ const recent = computed(() => {
 })
 
 function confirmClear() {
-  if (window.confirm('Delete ALL tracked data and the baby profile? This cannot be undone.')) clearAllData()
+  if (window.confirm('Delete ALL tracked data and the baby profile? This cannot be undone.'))
+    clearAllData()
 }
 </script>
 
@@ -77,7 +82,9 @@ function confirmClear() {
         <div class="stat diapers">
           <div class="label">🧷 Diapers</div>
           <div class="value">{{ stats.diaperCount }}</div>
-          <div class="sub">{{ stats.wet }} wet · {{ stats.dirty }} dirty · last {{ lastDiaper }}</div>
+          <div class="sub">
+            {{ stats.wet }} wet · {{ stats.dirty }} dirty · last {{ lastDiaper }}
+          </div>
         </div>
       </div>
     </section>
@@ -117,7 +124,9 @@ function confirmClear() {
         <label>
           <span class="label-row">
             <span>Birth date</span>
-            <span v-if="state.baby.birthDate" class="hint">{{ babyAge(state.baby.birthDate) }}</span>
+            <span v-if="state.baby.birthDate" class="hint">{{
+              babyAge(state.baby.birthDate)
+            }}</span>
           </span>
           <input v-model="state.baby.birthDate" type="date" />
         </label>
