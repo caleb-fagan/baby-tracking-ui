@@ -14,6 +14,7 @@ import {
   uid,
   utcToLocal,
 } from '../utils'
+import DateField from './DateField.vue'
 
 const form = reactive({
   start: nowLocal(),
@@ -90,14 +91,14 @@ function endNow(id: string) {
       <div class="form-grid">
         <label>
           Fell asleep
-          <input v-model="form.start" type="datetime-local" required />
+          <DateField v-model="form.start" required />
         </label>
         <label>
           <span class="label-row">
             <span>Woke up</span>
             <span class="hint">leave empty if still asleep</span>
           </span>
-          <input v-model="form.end" type="datetime-local" />
+          <DateField v-model="form.end" />
         </label>
         <label>
           Type

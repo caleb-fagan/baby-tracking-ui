@@ -51,6 +51,7 @@ eslint.config.js     ESLint flat config (see Linting)
     DiaperLog.vue      diaper log (wet / dirty / both)
     GrowthLog.vue      weight / height / head circumference
     TimerCard.vue      reusable pausable stopwatch bound to a store timer
+    DateField.vue      calendar popover (@vuepic/vue-datepicker) for date-time and date-only fields
 ```
 
 ### Navigation
@@ -68,7 +69,8 @@ No router. `App.vue` holds a `tabs` array (`id`, `label`, `icon`, `component`) a
 
 - Every log entry has a `uid()` string `id`, kept stable across edits. Use `removeById(list, id)` to delete.
 - Stored timestamps are **UTC ISO strings** (`new Date().toISOString()`, e.g. `"2026-10-09T18:30:00.000Z"`). The fixed width means sorting is still plain string comparison (`newestFirst`, `localeCompare`). Calendar dates with no time of day (`GrowthEntry.date`, `BabyProfile.birthDate`) stay as local `"YYYY-MM-DD"`. Stopwatch fields are epoch ms. Don't store `Date` objects.
-- **Convert at the form boundary.** `<input type="datetime-local">` works in local `"YYYY-MM-DDTHH:mm"`, so forms hold local strings: `utcToLocal()` when loading an entry into the form, `localToUtc()` when saving it (and `nowUtc()` when stamping the current time directly). Display code just passes the stored UTC string to `formatDateTime()`, which renders in the viewer's local zone. Comparing two values from the same form (`form.end < form.start`) is fine because both are local.
+- **Date and time fields use `<DateField v-model="form.x" />`** (add `date-only` for `"YYYY-MM-DD"` fields, `required` for fields that can't be cleared), not a native `<input type="datetime-local">`. It binds a local string exactly as the native input did, so the conversion below is unchanged. Its menu renders inline and is themed in `style.css` (`.dp--*` rules) from `--accent` / `--accent-soft`; don't use the library's `teleport` (the target doesn't exist on first mount).
+- **Convert at the form boundary.** `DateField` works in local `"YYYY-MM-DDTHH:mm"`, so forms hold local strings: `utcToLocal()` when loading an entry into the form, `localToUtc()` when saving it (and `nowUtc()` when stamping the current time directly). Display code just passes the stored UTC string to `formatDateTime()`, which renders in the viewer's local zone. Comparing two values from the same form (`form.end < form.start`) is fine because both are local.
 - Older saved data used local `"YYYY-MM-DDTHH:mm"` strings; `migrateTimestampsToUtc()` in `store.ts` converts them on load (idempotent). Keep it working if you add timestamp fields.
 - Use the helpers in `utils.ts` (`nowLocal`, `nowUtc`, `localToUtc`, `utcToLocal`, `todayLocal`, `toLocalString`, `formatDateTime`, `formatDuration`, `minutesBetween`, `timeAgo`, `babyAge`, `isToday`) rather than reimplementing them.
 - Optional numeric fields are `undefined` (not `0` or `''`) when unset; form refs use `number | ''` and are converted on submit (see `opt()` in `GrowthLog.vue`).

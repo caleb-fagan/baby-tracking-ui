@@ -13,6 +13,7 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
+    "@vuepic/vue-datepicker": "^14.0.0",
     "vue": "^3.5.13"
   },
   "devDependencies": {

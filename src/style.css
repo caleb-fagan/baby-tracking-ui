@@ -417,3 +417,50 @@ button.danger:hover {
     padding: 14px;
   }
 }
+
+/* ---------- date picker (@vuepic/vue-datepicker) ---------- */
+/* The menu renders inline inside <main>, so it picks up the section's --accent / --accent-soft. */
+.dp--theme-light {
+  --dp-primary-color: var(--accent);
+  --dp-primary-text-color: #fff;
+  --dp-primary-disabled-color: var(--accent-soft);
+  --dp-hover-color: var(--accent-soft);
+  --dp-hover-text-color: var(--text);
+  --dp-hover-icon-color: var(--accent);
+  --dp-highlight-color: var(--accent-soft);
+  --dp-text-color: var(--text);
+  --dp-secondary-color: var(--muted);
+  --dp-icon-color: var(--muted);
+  --dp-border-color: var(--border);
+  --dp-menu-border-color: var(--border);
+  --dp-border-color-hover: var(--accent);
+  --dp-border-color-focus: var(--accent);
+  --dp-border-radius: 10px;
+  --dp-cell-border-radius: 10px;
+  --dp-cell-size: 38px;
+  --dp-font-family: inherit;
+  --dp-font-size: 1rem;
+  --dp-action-button-height: 32px;
+  --dp-action-buttons-padding: 4px 12px;
+}
+
+/* Match the plain text inputs: same type size, padding and height. */
+.dp--input {
+  font-size: inherit;
+  font-weight: 400;
+  line-height: normal;
+  padding-top: 9px;
+  padding-bottom: 9px;
+  border-width: 1.5px;
+  color: var(--text);
+}
+
+/* The picker lives inside a <label>, so undo its bold muted type. */
+.dp--menu-wrapper {
+  font-weight: 400;
+}
+
+.dp--menu {
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(120, 100, 150, 0.18);
+}

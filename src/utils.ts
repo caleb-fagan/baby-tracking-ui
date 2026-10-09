@@ -5,10 +5,10 @@ export function uid(): string {
 }
 
 // Stored timestamps are UTC ISO strings ("2026-10-09T18:30:00.000Z"). The fixed width means they
-// still sort correctly as plain strings. Form inputs (<input type="datetime-local">) work in local
-// time "YYYY-MM-DDTHH:mm", so convert at that boundary with localToUtc / utcToLocal.
+// still sort correctly as plain strings. Form fields (<DateField>) work in local time
+// "YYYY-MM-DDTHH:mm", so convert at that boundary with localToUtc / utcToLocal.
 
-/** Epoch ms as local "YYYY-MM-DDTHH:mm" (the format datetime-local inputs use). */
+/** Epoch ms as local "YYYY-MM-DDTHH:mm" (the format form date-time fields use). */
 export function toLocalString(ms: number): string {
   const d = new Date(ms)
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`

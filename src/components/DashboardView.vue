@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { clearAllData, state } from '../store'
 import { babyAge, formatDateTime, formatDuration, isToday, minutesBetween, timeAgo } from '../utils'
+import DateField from './DateField.vue'
 
 defineEmits<{ navigate: [tab: string] }>()
 
@@ -128,7 +129,7 @@ function confirmClear() {
               babyAge(state.baby.birthDate)
             }}</span>
           </span>
-          <input v-model="state.baby.birthDate" type="date" />
+          <DateField v-model="state.baby.birthDate" date-only />
         </label>
         <label>
           Gender

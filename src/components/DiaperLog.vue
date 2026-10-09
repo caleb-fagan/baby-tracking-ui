@@ -11,6 +11,7 @@ import {
   uid,
   utcToLocal,
 } from '../utils'
+import DateField from './DateField.vue'
 
 const form = reactive({
   time: nowLocal(),
@@ -78,7 +79,7 @@ function remove(id: string) {
       <div class="form-grid">
         <label>
           When
-          <input v-model="form.time" type="datetime-local" required />
+          <DateField v-model="form.time" required />
         </label>
         <label>
           Type

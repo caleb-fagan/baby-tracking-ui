@@ -2,6 +2,7 @@
 import { computed, reactive, ref } from 'vue'
 import { state } from '../store'
 import { formatDate, newestFirst, removeById, todayLocal, uid } from '../utils'
+import DateField from './DateField.vue'
 
 const form = reactive({
   date: todayLocal(),
@@ -85,7 +86,7 @@ function remove(id: string) {
       <div class="form-grid">
         <label>
           Date
-          <input v-model="form.date" type="date" required />
+          <DateField v-model="form.date" date-only required />
         </label>
         <label>
           Weight (kg)
